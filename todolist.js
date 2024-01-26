@@ -41,7 +41,7 @@ if(localStorage.getItem('load'))    //LocalStorage varsa gir
 
 // Ekle butonunu <span> tipinden <button> tipine çevirme. (bu şekilde listeye "enter" ile ekleme yapılabilcek)
 let elem = document.querySelector('#liveToastBtn')
-elem.outerHTML = `<button type="submit" onclick="newElement()" id="liveToastBtn" class="button" style ="border-width: 0px">${elem.innerHTML}</button>`;
+elem.outerHTML = `<button type="submit" id="liveToastBtn" class="button" style ="border-width: 0px">${elem.innerHTML}</button>`;
 
 
 //Kutuya yazılan bilgiyi alma
@@ -52,7 +52,14 @@ userTaskDOM.addEventListener('submit', formHandler)
 function formHandler(event) {
     event.preventDefault()                          //Sayfa yenilenmesini engeleme
     const TASK = document.querySelector("#task")    //Kutudaki bilginin atanması
-    
+    for(let i = 0; i < listDOM.children.length; i++) //Aynı bilgiyi kontrol eder
+    {
+        if(listDOM.children[i].textContent.trim().split(" \n")[0]==TASK.value)
+        {
+            $(".match").toast("show");
+            return;
+        }
+    }
     if (TASK.value.trim() == ""){   //"input" değeri boş ise "toast" bildirimi ile 
         $(".error").toast("show");  //"Listeye boş ekleme yapamazsınız!" bildirimini göster
     } 
